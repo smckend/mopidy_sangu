@@ -1,0 +1,66 @@
+name: Build Mopidy Sangu
+on:
+  push:
+    branches:
+      - master
+      - 'fix/**'
+      - 'feat/**'
+
+jobs:
+  build_ui:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+#      with:
+#        persist-credentials: false
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1.3.2
+      with:
+        channel: 'beta'
+    - run: flutter config --enable-web
+      working-directory: ./sangu_ui
+    - run: flutter pub get
+      working-directory: ./sangu_ui
+    - run: flutter build web
+      working-directory: ./sangu_ui
+    - name: Archive static files
+      uses: actions/upload-artifact@v1
+      with:
+        name: static
+        path: sangu_ui/build/web
+
+# Disabling while mopidy is still in beta
+#  test_python:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v1
+##      with:
+##        persist-credentials: false
+#    - name: Set up Python
+#      uses: actions/setup-python@v1.1.1
+#      with:
+#        python-version: '3.x'
+#    - run: sudo apt-get install python3-gi
+#    - run: python setup.py test
+
+  release:
+    needs: build_ui
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+#      with:
+#        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@v1.1.1
+      with:
+        python-version: '3.x'
+    - uses: actions/download-artifact@v1
+      with:
+        name: static
+        path: mopidy_sangu/static
+    - name: Run python build
+      run: python setup.py build
+    - name: Generate dist
+      run: python setup.py sdist

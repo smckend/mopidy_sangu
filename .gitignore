@@ -1,0 +1,16 @@
+*.pyc
+/.coverage
+/.mypy_cache/
+/.pytest_cache/
+/.tox/
+/*.egg-info
+/build/
+/dist/
+/MANIFEST
+pubspec.lock
+mopidy_sangu/static/*
+venv
+.idea
+.dart_tool
+.DS_Store
+*.flutter-plugins-dependencies

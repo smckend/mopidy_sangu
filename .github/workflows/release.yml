@@ -1,0 +1,53 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Create Release
+
+jobs:
+  build_ui:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+#      with:
+#        persist-credentials: false
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1.3.2
+      with:
+        channel: 'beta'
+    - run: flutter config --enable-web
+      working-directory: ./sangu_ui
+    - run: flutter pub get
+      working-directory: ./sangu_ui
+    - run: flutter build web --release
+      working-directory: ./sangu_ui
+    - name: Archive static files
+      uses: actions/upload-artifact@v1
+      with:
+        name: static
+        path: sangu_ui/build/web
+      
+  release:
+    needs: build_ui
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+#      with:
+#        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@v1.1.1
+      with:
+        python-version: '3.x'
+    - uses: actions/download-artifact@v1
+      with:
+        name: static
+        path: mopidy_sangu/static
+    - run: pip install python-semantic-release
+    - run: semantic-release publish --retry
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
