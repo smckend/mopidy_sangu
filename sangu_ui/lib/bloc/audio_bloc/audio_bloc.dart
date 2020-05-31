@@ -29,11 +29,12 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
 
   Stream<AudioState> _mapStartStreamToEvent(StartAudioStream event) async* {
     print("Audio url: ${event.url}");
-    if (event.url == null || event.url.isEmpty) {
+    _url = event.url;
+    if (_url == null || _url.isEmpty) {
       yield AudioFailed();
+      return;
     }
 
-    _url = event.url;
     await _player?.dispose();
     _audioPlayerEventsSubscription?.cancel();
 
@@ -51,6 +52,8 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   }
 
   Stream<AudioState> _mapLoadAudioToState(LoadAudio event) async* {
+    if (_url == null || _url.isEmpty) return;
+
     yield AudioLoading();
     Duration duration = await _player.setUrl(_url).catchError((error) {
       print("Error occurred during audio setup: $error. Trying anyway.");
