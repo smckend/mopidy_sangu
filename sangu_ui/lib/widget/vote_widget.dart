@@ -34,9 +34,15 @@ class VoteWidget extends StatelessWidget {
               icon: Icon(canVote ? Icons.favorite_border : Icons.favorite),
               padding: EdgeInsets.all(0.0),
               enableFeedback: buttonEnabled,
-              splashColor: buttonEnabled ? Theme.of(context).splashColor : Colors.transparent,
-              hoverColor: buttonEnabled ? Theme.of(context).hoverColor : Colors.transparent,
-              highlightColor: buttonEnabled ? Theme.of(context).highlightColor : Colors.transparent,
+              splashColor: buttonEnabled
+                  ? Theme.of(context).splashColor
+                  : Colors.transparent,
+              hoverColor: buttonEnabled
+                  ? Theme.of(context).hoverColor
+                  : Colors.transparent,
+              highlightColor: buttonEnabled
+                  ? Theme.of(context).highlightColor
+                  : Colors.transparent,
               onPressed: () async {
                 if (!_buttonClicked && buttonEnabled) {
                   _buttonClicked = true;
