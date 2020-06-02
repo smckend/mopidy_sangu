@@ -22,7 +22,7 @@ v1.0.0
 - Add scrollbar
 - Animate tracklist
 - UI changes to adopt more of a material theme
-- Add backend logos
+- Add backend logos (Spotify, Soundcloud and Jellyfin so far)
 - Initial work to be able to stream mopidy html output through the frontend
 - Backend Icons
 - Spotify track links
