@@ -70,6 +70,7 @@ class SanguAppState extends State<SanguAppBar> {
               return Padding(
                 padding: EdgeInsets.only(right: 18.0),
                 child: IconButton(
+                  tooltip: "Toggle sound",
                   icon: Icon(audioState is AudioUnmuted
                       ? Icons.volume_up
                       : Icons.volume_mute),
