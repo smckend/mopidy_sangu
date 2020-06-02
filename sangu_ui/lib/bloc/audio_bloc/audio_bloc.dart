@@ -40,7 +40,6 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     _player = AudioPlayer();
     _audioPlayerEventsSubscription = _player.playbackStateStream.listen(
       (state) {
-        print("Audio player state: $state");
         if (state == AudioPlaybackState.completed) {
           Future.delayed(const Duration(seconds: 2),
               () => add(StartAudioStream(url: event.url)));
