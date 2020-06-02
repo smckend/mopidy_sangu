@@ -34,16 +34,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      #      with:
-      #        persist-credentials: false
+      #        with:
+      #          persist-credentials: false
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.7"
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox
-        run: tox -e py
+        run: tox
 
   release:
     needs:
@@ -55,9 +55,9 @@ jobs:
 #      with:
 #        persist-credentials: false
     - name: Set up Python
-      uses: actions/setup-python@v1.1.1
+      uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.7'
     - uses: actions/download-artifact@v1
       with:
         name: static
