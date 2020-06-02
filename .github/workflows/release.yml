@@ -29,9 +29,24 @@ jobs:
       with:
         name: static
         path: sangu_ui/build/web
-      
+
+  test_python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      #      with:
+      #        persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v1.1.1
+        with:
+          python-version: '3.x'
+      - run: sudo apt-get install python3-gi tox
+      - run: tox
+
   release:
-    needs: build_ui
+    needs:
+     - build_ui
+     - test_python
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1

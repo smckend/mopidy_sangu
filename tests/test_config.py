@@ -8,9 +8,11 @@ def test_get_default_config():
 
     assert "[sangu]" in config
     assert "enabled = true" in config
-    assert "admin_password = sangu" in config
-    assert "enable_play_button = false" in config
+    assert "enable_play_button = true" in config
     assert "shuffle_fallback_playlist = false" in config
+    assert "admin_password = sangu" in config
+    assert "stream_url =" in config
+    assert "fallback_playlist_uri =" in config
 
 
 def test_get_config_schema():
@@ -18,7 +20,6 @@ def test_get_config_schema():
 
     schema = ext.get_config_schema()
 
-    assert "username" in schema
     assert "admin_password" in schema
     assert "enable_play_button" in schema
     assert "shuffle_fallback_playlist" in schema
