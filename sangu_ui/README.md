@@ -1,6 +1,6 @@
-# sangu
+# Sangu
 
-A democratic, collaborative playlist frontend for Mopidy made with Flutter.
+A democratic, collaborative playlist frontend made with Flutter.
 
 ## Flutter web
 
