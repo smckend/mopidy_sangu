@@ -34,15 +34,17 @@ jobs:
   test_python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-#      with:
-#        persist-credentials: false
-    - name: Set up Python
-      uses: actions/setup-python@v1.1.1
-      with:
-        python-version: '3.x'
-    - run: sudo apt-get install python3-gi tox
-    - run: tox
+      - uses: actions/checkout@v1
+#        with:
+#          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install Tox and any other packages
+        run: pip install tox
+      - name: Run Tox
+        run: tox -e py
 
   release:
     needs:
