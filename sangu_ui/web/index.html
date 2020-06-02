@@ -7,17 +7,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="mopidy_sangu">
-    <link rel="apple-touch-icon" href="/icons/Icon-192.png">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
     <meta content="Mopidy Sangu" property="og:title"/>
     <meta content="A democratic, collaborative playlist frontend for Mopidy made with Flutter"
           property="og:description"/>
-    <meta name="description" content="A democratic, collaborative playlist frontend for Mopidy made with Flutter">
     <meta content="music.radio_station" property="og:type"/>
-    <meta content="https://www.mopidy-sangu.com/" property="og:url" />
-    <meta content="https://www.iconsdb.com/icons/preview/guacamole-green/musical-note-xxl.png" property="og:image"/>
+
     <title>Sangu</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <!-- This script installs service_worker.js to provide PWA functionality to
@@ -26,7 +24,7 @@
     <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/flutter_service_worker.js');
+        navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
     </script>
