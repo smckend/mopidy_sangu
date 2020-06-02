@@ -43,6 +43,6 @@ Project resources
 Credits
 =======
 
-- Original authors: `Samuel McKendrick <https://github.com/smckend>`__, Agnieszka Lewicka
-- Current maintainer(s): `Samuel McKendrick <https://github.com/smckend>`__
+- Original authors: `Samuel McKendrick <https://github.com/smckend>`_, `Agnieszka Lewicka <https://github.com/AgnieszkaLewicka>`_
+- Current maintainer(s): `Samuel McKendrick <https://github.com/smckend>`_
 - `Contributors <https://github.com/smckend/mopidy-sangu/graphs/contributors>`_
