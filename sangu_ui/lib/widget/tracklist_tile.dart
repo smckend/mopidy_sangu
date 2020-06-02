@@ -17,7 +17,7 @@ class TrackListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        contentPadding: EdgeInsets.only(top: 15),
+        contentPadding: EdgeInsets.only(top: 8, bottom: 8),
         leading: Container(
           height: 45,
           width: 105,

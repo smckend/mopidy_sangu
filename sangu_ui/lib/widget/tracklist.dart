@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:sangu/bloc/login_bloc/bloc.dart';
@@ -44,20 +45,30 @@ class _TrackListWidgetState extends State<TrackListWidget> {
                     child: TrackListTile(tlTrack: tlTrack),
                   );
                   return state is LoggedIn
-                      ? Dismissible(
+                      ? Slidable(
                           key: Key(tlTrack.trackListId.toString()),
-                          onDismissed: (DismissDirection direction) {
-                            BlocProvider.of<TrackListBloc>(context)
-                                .add(RemoveTrack(tlTrack: tlTrack));
-                            setState(() {
-                              trackList.removeAt(index);
-                            });
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text("${tlTrack.track.name} dismissed")));
-                          },
-                          background: Container(color: Colors.red),
+                          actionPane: SlidableScrollActionPane(),
+                          actionExtentRatio: 0.20,
                           child: _listTile,
+                          actions: [
+                            IconSlideAction(
+                              caption: 'Remove',
+                              color: Colors.red,
+                              icon: Icons.delete,
+                              onTap: () {
+                                BlocProvider.of<TrackListBloc>(context).add(
+                                  RemoveTrack(tlTrack: tlTrack),
+                                );
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Removed ${tlTrack.track.name} by ${tlTrack.track.getArtists()}",
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
                         )
                       : _listTile;
                 },
