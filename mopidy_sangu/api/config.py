@@ -18,7 +18,7 @@ class ConfigRequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-        self.set_header("Access-Control-Allow-Methods", 'GET, OPTIONS')
+        self.set_header("Access-Control-Allow-Methods", "GET, OPTIONS")
 
     def get(self):
         logger.info("Getting config")
@@ -27,7 +27,7 @@ class ConfigRequestHandler(tornado.web.RequestHandler):
                 "config": {
                     "sessionId": self.session_id,
                     "streamUrl": self.stream_url,
-                    "enablePlayButton": self.enable_play_button
+                    "enablePlayButton": self.enable_play_button,
                 }
             }
         )

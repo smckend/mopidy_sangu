@@ -28,15 +28,19 @@ class Extension(ext.Extension):
 
     def setup(self, registry):
         from mopidy_sangu.actor.fallback_music_actor import FallbackMusicActor
-        registry.add('frontend', FallbackMusicActor)
+
+        registry.add("frontend", FallbackMusicActor)
 
         from mopidy_sangu.api import sangu_factory
-        registry.add('http:app', {
-            'name': self.ext_name,
-            'factory': sangu_factory,
-        })
 
-        registry.add("http:static", {
-            "name": self.ext_name,
-            "path": str(pathlib.Path(__file__).parent / "static"),
-        })
+        registry.add(
+            "http:app", {"name": self.ext_name, "factory": sangu_factory,}
+        )
+
+        registry.add(
+            "http:static",
+            {
+                "name": self.ext_name,
+                "path": str(pathlib.Path(__file__).parent / "static"),
+            },
+        )

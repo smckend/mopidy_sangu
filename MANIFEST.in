@@ -13,3 +13,5 @@ include mopidy_*/ext.conf
 
 recursive-include tests *.py
 recursive-include tests/data *
+
+recursive-exclude sangu_ui *
