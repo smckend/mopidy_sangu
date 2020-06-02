@@ -10,6 +10,9 @@ extension TrackExtension on Track {
       case "soundcloud":
         return Image.asset("images/soundcloud.png");
         break;
+      case "jellyfin":
+        return Image.asset("images/jellyfin.png");
+        break;
       default:
         return Icon(Icons.music_note);
         break;
@@ -22,6 +25,7 @@ extension TrackExtension on Track {
         return "https://open.spotify.com/track/${this.uri.split(":").last}";
         break;
       case "soundcloud":
+      case "jellyfin":
       default:
         return null;
         break;
