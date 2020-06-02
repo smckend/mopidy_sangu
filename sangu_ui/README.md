@@ -1,16 +1,28 @@
 # sangu
 
-A new Flutter project.
+A democratic, collaborative playlist frontend for Mopidy made with Flutter.
 
-## Getting Started
+## Flutter web
 
-This project is a starting point for a Flutter application.
+[Getting started with Flutter web](https://flutter.dev/docs/get-started/web)
 
-A few resources to get you started if this is your first Flutter project:
+Use flutter beta channel to be able to use Flutter web:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```shell script
+# Switch channel and upgrade
+flutter channel beta
+flutter upgrade
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Enable flutter web
+flutter config --enable-web
+```
+
+Run locally with:
+```shell script
+flutter run -d chrome
+```
+
+Build static assets:
+```shell script
+flutter build web
+```
