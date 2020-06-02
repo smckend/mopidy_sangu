@@ -13,4 +13,9 @@ class Config {
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$ConfigToJson(this);
+
+  @override
+  String toString() {
+    return "Config { sessionId: $sessionId, streamUrl: $streamUrl, enablePlayButton: $enablePlayButton }";
+  }
 }

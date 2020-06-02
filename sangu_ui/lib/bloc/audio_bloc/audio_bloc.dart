@@ -28,7 +28,6 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   }
 
   Stream<AudioState> _mapStartStreamToEvent(StartAudioStream event) async* {
-    print("Stream url: ${event.url}");
     _url = event.url;
     if (_url == null || _url.isEmpty) {
       yield AudioFailed();

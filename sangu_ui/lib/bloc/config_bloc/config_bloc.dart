@@ -25,7 +25,7 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
   Stream<ConfigState> _mapLoadConfigToState() async* {
     var rawConfig = await configClient.getConfig();
     Config config = Config.fromJson(rawConfig);
-    print("Got config: $config");
+    print("Loaded Config: $config");
     yield Loaded(config: config);
   }
 }
