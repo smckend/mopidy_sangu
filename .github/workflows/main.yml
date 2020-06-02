@@ -47,7 +47,7 @@ jobs:
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox
-        run: tox -e py
+        run: tox -e py,black
 
   release:
     needs:
