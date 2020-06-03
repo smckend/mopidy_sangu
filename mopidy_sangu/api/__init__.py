@@ -1,37 +1,39 @@
+import logging
 import string
 import random
 
+from mopidy_sangu.storage import VoteDatabaseProvider
 from mopidy_sangu.api.admin import AdminRequestHandler
 from mopidy_sangu.api.unvote import UnVoteRequestHandler
 from mopidy_sangu.api.vote import VoteRequestHandler
 from mopidy_sangu.api.config import ConfigRequestHandler
 from mopidy_sangu.api.vote_data import VoteDataRequestHandler
 
+logger = logging.getLogger(__name__)
+
 
 def sangu_factory(config, core):
-    vote_data = {}
     session_id = get_random_alpha_numeric_string()
+    votes = VoteDatabaseProvider(config)
+    votes.setup()
+    votes.clear()
 
     return [
         (
             "/api/track/(\\d+)?/vote",
             VoteRequestHandler,
-            {"core": core, "vote_data": vote_data},
+            {"core": core, "votes": votes},
         ),
         (
             "/api/track/(\\d+)?/unvote",
             UnVoteRequestHandler,
-            {"core": core, "vote_data": vote_data},
+            {"core": core, "votes": votes},
         ),
+        ("/api/votes", VoteDataRequestHandler, {"core": core, "votes": votes},),
         (
             "/api/config",
             ConfigRequestHandler,
             {"core": core, "config": config, "session_id": session_id},
-        ),
-        (
-            "/api/votes",
-            VoteDataRequestHandler,
-            {"core": core, "vote_data": vote_data},
         ),
         (
             "/api/admin/login",
