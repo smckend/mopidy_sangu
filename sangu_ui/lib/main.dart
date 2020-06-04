@@ -131,8 +131,7 @@ class MyApp extends StatelessWidget {
                     create: (context) =>
                         TrackListBloc(webSocket: mopidyWebSocket)
                           ..add(LoadTracklistEvents())
-                          ..add(UpdateTrackList())
-                          ..add(SetIfDeleteTrackAfterPlay(boolean: true)),
+                          ..add(UpdateTrackList()),
                   ),
                   BlocProvider<ArtworkBloc>(
                     create: (context) => ArtworkBloc(webSocket: mopidyWebSocket)

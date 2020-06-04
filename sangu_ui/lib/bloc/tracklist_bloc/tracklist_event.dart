@@ -36,18 +36,6 @@ class RemoveTrack extends TrackListEvent {
   String toString() => "RemoveTrack { tlTrack: ${tlTrack.track.name}";
 }
 
-class SetIfDeleteTrackAfterPlay extends TrackListEvent {
-  final bool boolean;
-
-  SetIfDeleteTrackAfterPlay({this.boolean});
-
-  @override
-  List<Object> get props => [boolean];
-
-  @override
-  String toString() => "SetIfDeleteTrackAfterPlay { boolean: $boolean}";
-}
-
 class ReceivedTrackList extends TrackListEvent {
   final List<TlTrack> trackList;
 

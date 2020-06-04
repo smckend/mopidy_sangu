@@ -24,8 +24,6 @@ class TrackListBloc extends Bloc<TrackListEvent, TrackListState> {
       yield* _mapReceivedTrackListToState(event);
     } else if (event is UpdateTrackList) {
       webSocket.getTrackList();
-    } else if (event is SetIfDeleteTrackAfterPlay) {
-      webSocket.setDeleteSongAfterPlay(event.boolean);
     } else if (event is AddTrack) {
       await webSocket.addTrackToTrackList(event.track);
       webSocket.playTrackIfNothingElseIsPlaying();

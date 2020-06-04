@@ -20,7 +20,7 @@ class VoteDatabaseProvider:
         self._data_dir = Extension.get_data_dir(config)
         self._db_path = self._data_dir / "vote_data.db"
         self._connection = None
-        logger.info(self._db_path)
+        logger.info("Database path: {}".format(self._db_path))
 
     def setup(self):
         with self._connect() as connection:

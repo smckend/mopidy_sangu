@@ -111,37 +111,41 @@ class MopidyWebSocket extends SanguWebSocket {
   }
 
   search(Map query) async {
-    _rpcClient.search(query: query).then((result) {
-      List listResult = result;
-      List<SearchResult> searchResults = List();
-      listResult.forEach((rawSearchResult) {
-        List tracks = rawSearchResult["tracks"];
-        String searchBackend = rawSearchResult["uri"].split(":")[0];
-        tracks?.forEach((rawTrack) {
-          Track track = Track.fromJson(rawTrack);
-          searchResults
-              .add(SearchResult(track: track, searchBackend: searchBackend));
-        });
-      });
-      _streamController
-          .add(ReceivedSearchResults(searchResults: searchResults ?? []));
-    });
+    _rpcClient.search(query: query).then(
+      (result) {
+        List listResult = result;
+        List<SearchResult> searchResults = List();
+        listResult.forEach(
+          (rawSearchResult) {
+            List tracks = rawSearchResult["tracks"];
+            String searchBackend = rawSearchResult["uri"].split(":")[0];
+            tracks?.forEach(
+              (rawTrack) {
+                Track track = Track.fromJson(rawTrack);
+                searchResults.add(
+                    SearchResult(track: track, searchBackend: searchBackend));
+              },
+            );
+          },
+        );
+        _streamController
+            .add(ReceivedSearchResults(searchResults: searchResults ?? []));
+      },
+    );
   }
 
   getTrackList() async {
-    _rpcClient.getTlTracks.then((result) {
-      List listOfRawTracks = result;
-      var trackList = listOfRawTracks?.map((dynamic rawTrack) {
-        return TlTrack.fromJson(rawTrack);
-      })?.toList();
-      _streamController.add(ReceivedTrackList(trackList: trackList));
-    });
-  }
-
-  setDeleteSongAfterPlay(bool boolean) async {
-    _rpcClient.setConsume(boolean).then((_) {
-      print("Consume value set to $boolean.");
-    });
+    _rpcClient.getIndex().then(
+          (index) => _rpcClient.getSliceOfTlTracks(start: index).then(
+            (result) {
+              List listOfRawTracks = result;
+              var trackList = listOfRawTracks?.map((dynamic rawTrack) {
+                return TlTrack.fromJson(rawTrack);
+              })?.toList();
+              _streamController.add(ReceivedTrackList(trackList: trackList));
+            },
+          ),
+        );
   }
 
   getImages(List<String> uris) async {

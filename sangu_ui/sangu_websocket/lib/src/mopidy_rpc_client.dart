@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:json_rpc_2/json_rpc_2.dart';
+import 'package:sangu_websocket/sangu_websocket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MopidyRpcClient {
@@ -37,38 +38,80 @@ class MopidyRpcClient {
 
   Future get getVersion => _rpcClient.sendRequest("core.get_version");
 
-  Future get getState => _rpcClient.sendRequest("core.playback.get_state");
+  Future get getState => _rpcClient.sendRequest(
+        "core.playback.get_state",
+      );
 
-  Future get getTimePosition =>
-      _rpcClient.sendRequest("core.playback.get_time_position");
+  Future get getTimePosition => _rpcClient.sendRequest(
+        "core.playback.get_time_position",
+      );
 
-  Future get getTlTracks =>
-      _rpcClient.sendRequest("core.tracklist.get_tl_tracks");
+  Future get getTlTracks => _rpcClient.sendRequest(
+        "core.tracklist.get_tl_tracks",
+      );
+
+  Future getIndex({TlTrack tlTrack, int trackListId}) => _rpcClient.sendRequest(
+        "core.tracklist.index",
+        {
+          "tl_track": tlTrack,
+          "tlid": trackListId,
+        },
+      );
+
+  Future getSliceOfTlTracks({int start, int end}) => _rpcClient.sendRequest(
+        "core.tracklist.slice",
+        {
+          "start": start,
+          "end": end,
+        },
+      );
 
   play({int trackListId}) {
-    return _rpcClient
-        .sendNotification("core.playback.play", {"tlid": trackListId});
+    return _rpcClient.sendNotification(
+      "core.playback.play",
+      {
+        "tlid": trackListId,
+      },
+    );
   }
 
   Future search({Map query, List uris}) {
-    return _rpcClient
-        .sendRequest("core.library.search", {"query": query, "uris": uris});
+    return _rpcClient.sendRequest(
+      "core.library.search",
+      {
+        "query": query,
+        "uris": uris,
+      },
+    );
   }
 
-  Future getImages(List uris) =>
-      _rpcClient.sendRequest("core.library.get_images", {"uris": uris});
+  Future getImages(List uris) => _rpcClient.sendRequest(
+        "core.library.get_images",
+        {
+          "uris": uris,
+        },
+      );
 
-  Future lookup(List uris) =>
-      _rpcClient.sendRequest("core.library.lookup", {"uris": uris});
+  Future lookup(List uris) => _rpcClient.sendRequest(
+        "core.library.lookup",
+        {
+          "uris": uris,
+        },
+      );
 
-  Future add(List<String> uris) =>
-      _rpcClient.sendRequest("core.tracklist.add", {"uris": uris});
+  Future add(List<String> uris) => _rpcClient.sendRequest(
+        "core.tracklist.add",
+        {
+          "uris": uris,
+        },
+      );
 
-  Future remove(List<int> trackListIds) =>
-      _rpcClient.sendRequest("core.tracklist.remove", {
-        "criteria": {'tlid': trackListIds}
-      });
-
-  Future setConsume(bool boolean) =>
-      _rpcClient.sendRequest("core.tracklist.set_consume", {"value": boolean});
+  Future remove(List<int> trackListIds) => _rpcClient.sendRequest(
+        "core.tracklist.remove",
+        {
+          "criteria": {
+            'tlid': trackListIds,
+          }
+        },
+      );
 }

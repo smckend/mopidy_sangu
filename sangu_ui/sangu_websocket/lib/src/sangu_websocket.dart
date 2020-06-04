@@ -25,8 +25,6 @@ abstract class SanguWebSocket {
 
   Future<void> getTrackList() async {}
 
-  Future<void> setDeleteSongAfterPlay(bool boolean) async {}
-
   Future<void> getImages(List<String> uris) async {}
 
   Future<void> addTrackToTrackList(Track track) async {}

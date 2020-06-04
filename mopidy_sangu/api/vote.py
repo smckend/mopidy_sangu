@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 def get_new_index(core, votes: VoteDatabaseProvider, track_id):
     from itertools import count
 
-    track_queue = core.tracklist.get_tl_tracks().get()
+    index = core.tracklist.index().get()
+    track_queue = core.tracklist.slice(start=index, end=None).get()
     track_queue.pop(0)
     sorted_queue = sorted(
         track_queue,
@@ -19,10 +20,11 @@ def get_new_index(core, votes: VoteDatabaseProvider, track_id):
             track.tlid,
         ),
     )
-    print("finished")
-    return [i for i, j in zip(count(), sorted_queue) if j.tlid == track_id][
-        0
-    ] + 1
+    return (
+        [i for i, j in zip(count(), sorted_queue) if j.tlid == track_id][0]
+        + 1
+        + index
+    )
 
 
 class VoteRequestHandler(tornado.web.RequestHandler):

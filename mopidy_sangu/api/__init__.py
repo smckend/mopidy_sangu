@@ -17,6 +17,7 @@ def sangu_factory(config, core):
     votes = VoteDatabaseProvider(config)
     votes.setup()
     votes.clear()
+    core.tracklist.set_consume(value=True).get()
 
     return [
         (
