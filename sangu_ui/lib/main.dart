@@ -124,8 +124,7 @@ class MyApp extends StatelessWidget {
                   ),
                   BlocProvider<SeekBloc>(
                     create: (context) => SeekBloc(webSocket: mopidyWebSocket)
-                      ..add(LoadSeekEvents())
-                      ..add(GetTimePosition()),
+                      ..add(LoadSeekEvents()),
                   ),
                   BlocProvider<TrackListBloc>(
                     create: (context) =>

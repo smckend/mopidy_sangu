@@ -59,6 +59,7 @@ class _SeekBarState extends State<SeekBar> with SingleTickerProviderStateMixin {
   }
 
   Future _initPollSeekPosition() async {
+    _seekBloc.add(GetTimePosition());
     while (_seekBloc != null) {
       await Future.delayed(
           const Duration(seconds: 2), () => _seekBloc.add(GetTimePosition()));
