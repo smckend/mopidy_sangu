@@ -5,15 +5,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 class BackendIcon extends StatelessWidget {
   final Track track;
+  final bool enableGesture;
 
-  const BackendIcon({Key key, this.track}) : super(key: key);
+  const BackendIcon({Key key, this.track, this.enableGesture = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final String url = track.getUrl();
     return GestureDetector(
       onTap: () async {
-        if (url == null) return;
+        if (!enableGesture || url == null) return;
 
         if (await canLaunch(url)) {
           await launch(url);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_listview/grouped_listview.dart';
 import 'package:sangu/bloc/search_bloc/bloc.dart';
+import 'package:sangu/widget/backend_icon.dart';
 import 'package:sangu_websocket/sangu_websocket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -129,7 +130,10 @@ class SanguSearchWidget extends SearchDelegate<Track> {
             listBuilder: (BuildContext context, SearchResult searchResult) {
               Track track = searchResult.track;
               return ListTile(
-                leading: Icon(Icons.music_note),
+                leading: BackendIcon(
+                  track: track,
+                  enableGesture: false,
+                ),
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
