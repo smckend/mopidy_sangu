@@ -8,7 +8,8 @@ import 'package:sangu_websocket/sangu_websocket.dart' as SW;
 class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
   final SW.SanguWebSocket webSocket;
   LocalStorage _artwork;
-  StreamSubscription _streamSubscription;
+  StreamSubscription _webSocketStreamSubscription;
+  StreamSubscription _storageStreamSubscription;
 
   ArtworkBloc({this.webSocket});
 
@@ -21,55 +22,45 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
   ) async* {
     if (event is LoadArtworkEvents) {
       yield* _mapLoadArtworkEventsToState(event);
-    } else if (event is ReceivedAlbumArt) {
-      yield* _mapReceivedAlbumArtToState(event);
     } else if (event is GetAlbumArt) {
       yield* _mapGetAlbumArtToState(event);
+    } else if (event is ReceivedAlbumArt) {
+      yield* _mapReceivedAlbumArtToState(event);
+    } else if (event is UpdateAlbumArt) {
+      yield* _mapUpdateAlbumArtToState(event);
     }
-  }
-
-  String getMediumImageForUri(String uri) => _getImagesForUri(uri)?.mediumImage;
-
-  String getLargeImageForUri(String uri) => _getImagesForUri(uri)?.largeImage;
-
-  String getSmallImageForUri(String uri) => _getImagesForUri(uri)?.smallImage;
-
-  SW.Images _getImagesForUri(String uri) {
-    var imageJson = _artwork?.getItem(uri);
-    return imageJson != null ? SW.Images.fromJson(imageJson) : null;
   }
 
   Stream<ArtworkState> _mapLoadArtworkEventsToState(
       LoadArtworkEvents event) async* {
-    _streamSubscription?.cancel();
+    _webSocketStreamSubscription?.cancel();
+    _storageStreamSubscription?.cancel();
     _artwork?.dispose();
 
     _artwork = LocalStorage('artwork');
-    _streamSubscription = webSocket.stream.listen(
+    _storageStreamSubscription = _artwork.stream.listen(
+      (artwork) => add(
+        UpdateAlbumArt(artwork: artwork),
+      ),
+    );
+    _webSocketStreamSubscription = webSocket.stream.listen(
       (event) {
         if (event is SW.ReceivedAlbumArt) {
           add(ReceivedAlbumArt(artwork: event.artwork));
         } else if (event is SW.ReceivedTrackList) {
           List<SW.TlTrack> trackList = event.trackList;
           if (trackList.isNotEmpty)
-            add(GetAlbumArt(
-                uris: trackList.map((tlTrack) => tlTrack.track.uri).toList()));
+            add(
+              GetAlbumArt(
+                uris: trackList.map((tlTrack) => tlTrack.track.uri).toList(),
+              ),
+            );
         }
       },
     );
   }
 
-  Stream<ArtworkState> _mapReceivedAlbumArtToState(
-      ReceivedAlbumArt event) async* {
-    yield AlbumArtLoading();
-    event.artwork.forEach((uri, images) {
-      _artwork.setItem(uri, images);
-    });
-    yield AlbumArtReady();
-  }
-
   Stream<ArtworkState> _mapGetAlbumArtToState(GetAlbumArt event) async* {
-    yield AlbumArtLoading();
     var urisWithNoArtwork = event.uris
         .where((uri) => uri != null && _artwork.getItem(uri) == null)
         .toList();
@@ -77,9 +68,26 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     webSocket.getImages(urisWithNoArtwork);
   }
 
+  Stream<ArtworkState> _mapReceivedAlbumArtToState(
+      ReceivedAlbumArt event) async* {
+    event.artwork.forEach((String uri, SW.Images images) {
+      _artwork.setItem(uri, images);
+    });
+  }
+
+  Stream<ArtworkState> _mapUpdateAlbumArtToState(UpdateAlbumArt event) async* {
+    yield AlbumArtReady(
+        artwork: event.artwork
+            .map((String uri, imageJson) => MapEntry<String, SW.Images>(
+                  uri,
+                  imageJson != null ? SW.Images.fromJson(imageJson) : null,
+                )));
+  }
+
   @override
   Future<void> close() {
-    _streamSubscription?.cancel();
+    _webSocketStreamSubscription?.cancel();
+    _storageStreamSubscription?.cancel();
     _artwork?.dispose();
     return super.close();
   }

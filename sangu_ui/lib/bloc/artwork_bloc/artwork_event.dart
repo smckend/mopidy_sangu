@@ -21,7 +21,7 @@ class GetAlbumArt extends ArtworkEvent {
   List<Object> get props => [uris];
 
   @override
-  String toString() => "GetAlbumArt { # urs: ${uris.length}}";
+  String toString() => "GetAlbumArt { # uris: ${uris.length}}";
 }
 
 class ReceivedAlbumArt extends ArtworkEvent {
@@ -34,4 +34,16 @@ class ReceivedAlbumArt extends ArtworkEvent {
 
   @override
   String toString() => "ReceivedAlbumArt { # artwork: ${artwork.length} }";
+}
+
+class UpdateAlbumArt extends ArtworkEvent {
+  final Map<String, dynamic> artwork;
+
+  UpdateAlbumArt({this.artwork});
+
+  @override
+  List<Object> get props => [artwork];
+
+  @override
+  String toString() => "UpdateAlbumArt { # artwork: ${artwork.length} }";
 }

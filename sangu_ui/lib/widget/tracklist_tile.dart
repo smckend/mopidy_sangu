@@ -41,8 +41,10 @@ class TrackListTile extends StatelessWidget {
                   fit: BoxFit.fill,
                   child: BlocBuilder<ArtworkBloc, ArtworkState>(
                     builder: (BuildContext context, ArtworkState artworkState) {
-                      String imageUrl = BlocProvider.of<ArtworkBloc>(context)
-                          .getSmallImageForUri(tlTrack?.track?.uri);
+                      String imageUrl = artworkState is AlbumArtReady
+                          ? artworkState
+                              .artwork[tlTrack?.track?.uri]?.smallImage
+                          : null;
                       return imageUrl != null
                           ? Image.network(imageUrl)
                           : FlutterLogo();

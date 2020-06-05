@@ -17,8 +17,9 @@ class SanguBackground extends StatelessWidget {
               Track currentTrack = trackListState.currentTrack?.track;
               return BlocBuilder<ArtworkBloc, ArtworkState>(
                 builder: (BuildContext context, artworkState) {
-                  String imageUrl = BlocProvider.of<ArtworkBloc>(context)
-                      .getLargeImageForUri(currentTrack?.uri);
+                  String imageUrl = artworkState is AlbumArtReady
+                      ? artworkState.artwork[currentTrack?.uri]?.largeImage
+                      : null;
                   return RepaintBoundary(
                     child: Container(
                       decoration: imageUrl != null

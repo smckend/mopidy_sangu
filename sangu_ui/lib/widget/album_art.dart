@@ -20,8 +20,9 @@ class AlbumArtWidget extends StatelessWidget {
               fit: BoxFit.contain,
               child: BlocBuilder<ArtworkBloc, ArtworkState>(
                 builder: (BuildContext context, ArtworkState artworkState) {
-                  String imageUrl = BlocProvider.of<ArtworkBloc>(context)
-                      .getMediumImageForUri(currentTrack?.uri);
+                  String imageUrl = artworkState is AlbumArtReady
+                      ? artworkState.artwork[currentTrack?.uri]?.mediumImage
+                      : null;
                   return imageUrl != null
                       ? Image.network(imageUrl)
                       : FlutterLogo();
