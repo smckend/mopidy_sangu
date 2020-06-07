@@ -35,6 +35,10 @@ class _TrackListWidgetState extends State<TrackListWidget> {
             areItemsTheSame: (track1, track2) =>
                 track1.trackListId == track2.trackListId,
             items: trackList,
+
+            // TODO: Remove after bug is fixed in external ImplicitlyAnimatedList lib
+            spawnIsolate: false,
+
             itemBuilder: (context, animation, tlTrack, index) {
               return BlocBuilder<LoginBloc, LoginState>(
                 builder: (BuildContext context, LoginState state) {
