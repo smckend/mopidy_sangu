@@ -46,7 +46,6 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
         }
       },
     );
-    add(LoadAudio());
   }
 
   Stream<AudioState> _mapLoadAudioToState(LoadAudio event) async* {
