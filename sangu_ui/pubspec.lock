@@ -344,7 +344,7 @@ packages:
       name: just_audio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.1.10"
   localstorage:
     dependency: "direct main"
     description:
