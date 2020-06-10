@@ -27,7 +27,8 @@ dependencies:
   flutter_slidable: ^0.5.4
   sangu_websocket:
     git:
-      url: git://github.com/smckend/sangu_websocket.git
+      url: git@github.com:smckend/sangu_websocket.git
+      ref: 04938ff6772fbca282fadc3854d34bab45d8acaf
 
 dev_dependencies:
   flutter_test:
