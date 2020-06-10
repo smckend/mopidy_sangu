@@ -28,7 +28,7 @@ dependencies:
   sangu_websocket:
     git:
       url: https://github.com/smckend/sangu_websocket.git
-      ref: 04938ff6772fbca282fadc3854d34bab45d8acaf
+      ref: v0.1.0
 
 dev_dependencies:
   flutter_test:
