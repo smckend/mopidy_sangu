@@ -53,13 +53,16 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     if (_url == null || _url.isEmpty) return;
 
     yield AudioLoading();
-    Duration duration = await _player.setUrl(_url).catchError(
-      (error) {
+    _player.setUrl(_url).catchError(
+      (error) async* {
         print("Error occurred during audio setup: $error.");
+        yield AudioFailed();
+      },
+    ).then(
+      (_) async* {
+        yield AudioMuted();
       },
     );
-
-    yield duration.isNegative ? AudioFailed() : AudioMuted();
   }
 
   Stream<AudioState> _mapMuteAudioToState(MuteAudio event) async* {
