@@ -6,7 +6,6 @@ import 'package:sangu_websocket/sangu_websocket.dart' as SW;
 
 class PlaybackBloc extends Bloc<PlaybackEvent, String> {
   SW.SanguWebSocket webSocket;
-  StreamSubscription _streamSubscription;
   final _knownStates = [
     SW.TrackPlayingState,
     SW.TrackPausedState,
@@ -22,39 +21,17 @@ class PlaybackBloc extends Bloc<PlaybackEvent, String> {
   Stream<String> mapEventToState(
     PlaybackEvent event,
   ) async* {
-    if (event is LoadPlaybackEvents) {
-      yield* _mapLoadPlaybackEventsToState(event);
-    } else if (event is PlayTrack) {
+    if (event is PlayTrack)
       webSocket.playTrack();
-    } else if (event is ResumeTrack) {
+    else if (event is ResumeTrack)
       webSocket.resumePlayback();
-    } else if (event is PauseTrack) {
+    else if (event is PauseTrack)
       webSocket.pausePlayback();
-    } else if (event is SkipTrack) {
+    else if (event is SkipTrack)
       webSocket.nextTrack();
-    } else if (event is TrackPlaybackChange) {
+    else if (event is TrackPlaybackChange) {
       String newState = event.state;
       if (_knownStates.contains(newState)) yield newState;
-    } else if (event is GetCurrentState) {
-      webSocket.getCurrentState();
-    }
-  }
-
-  Stream<String> _mapLoadPlaybackEventsToState(
-      LoadPlaybackEvents event) async* {
-    _streamSubscription?.cancel();
-    _streamSubscription = webSocket.stream.listen(
-      (event) {
-        if (event is SW.TrackPlaybackChange) {
-          add(TrackPlaybackChange(state: event.state));
-        }
-      },
-    );
-  }
-
-  @override
-  Future<void> close() {
-    _streamSubscription?.cancel();
-    return super.close();
+    } else if (event is GetCurrentState) webSocket.getCurrentState();
   }
 }

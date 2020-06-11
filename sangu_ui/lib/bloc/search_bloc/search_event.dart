@@ -7,11 +7,6 @@ abstract class SearchEvent extends Equatable {
   const SearchEvent();
 }
 
-class LoadSearchEvents extends SearchEvent {
-  @override
-  List<Object> get props => [];
-}
-
 class Search extends SearchEvent {
   final Map query;
 

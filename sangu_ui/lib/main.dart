@@ -22,8 +22,6 @@ import 'package:sangu/theme.dart';
 import 'package:sangu_websocket/sangu_websocket.dart';
 import 'package:universal_html/html.dart';
 
-import 'bloc/websocket_bloc/websocket_state.dart';
-
 void main() {
   var host =
       window.location.hostname != "" ? window.location.hostname : "10.0.2.2";
@@ -50,24 +48,28 @@ class MyApp extends StatelessWidget {
 
   MyApp({this.mopidyScheme, this.mopidyHost, this.mopidyPort})
       : mopidyWebSocket = MopidyWebSocket(
-            webSocketUri: Uri(
-                scheme: mopidyScheme == "https" ? "wss" : "ws",
-                host: mopidyHost,
-                port: mopidyPort,
-                path: "/mopidy/ws"));
+          webSocketUri: Uri(
+            scheme: mopidyScheme == "https" ? "wss" : "ws",
+            host: mopidyHost,
+            port: mopidyPort,
+            path: "/mopidy/ws",
+          ),
+        );
 
   @override
   Widget build(BuildContext context) {
     var basePath = "/sangu/api";
     return MultiBlocProvider(
       providers: [
-        BlocProvider<WebSocketBloc>(
-          create: (BuildContext context) =>
-              WebSocketBloc(webSocket: mopidyWebSocket)..add(LoadWebSocket()),
-        ),
-        BlocProvider<SearchBloc>(
-          create: (context) =>
-              SearchBloc(webSocket: mopidyWebSocket)..add(LoadSearchEvents()),
+        BlocProvider<VoteBloc>(
+          create: (context) => VoteBloc(
+            voteClient: VoteClient(
+              scheme: mopidyScheme,
+              host: mopidyHost,
+              port: mopidyPort,
+              basePath: basePath,
+            ),
+          )..add(LoadVoteData()),
         ),
         BlocProvider<ConfigBloc>(
           create: (BuildContext context) => ConfigBloc(
@@ -91,6 +93,22 @@ class MyApp extends StatelessWidget {
             ),
           )..add(LoadLoginState()),
         ),
+        BlocProvider<PlaybackBloc>(
+          create: (context) => PlaybackBloc(webSocket: mopidyWebSocket),
+        ),
+        BlocProvider<SeekBloc>(
+          create: (context) => SeekBloc(webSocket: mopidyWebSocket),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (context) => SearchBloc(webSocket: mopidyWebSocket),
+        ),
+        BlocProvider<TrackListBloc>(
+          create: (context) => TrackListBloc(webSocket: mopidyWebSocket),
+        ),
+        BlocProvider<ArtworkBloc>(
+          create: (context) =>
+              ArtworkBloc(webSocket: mopidyWebSocket)..add(LoadArtworkEvents()),
+        ),
       ],
       child: MaterialApp(
         title: 'Mopidy Sangu',
@@ -99,58 +117,40 @@ class MyApp extends StatelessWidget {
         home: BlocListener<ConfigBloc, ConfigState>(
           condition: (_, newState) => newState is Loaded,
           listener: (BuildContext context, configState) {
-            BlocProvider.of<UserVoteBloc>(context).add(LoadUserVotes(
-                sessionId: (configState as Loaded).config.sessionId));
-            BlocProvider.of<AudioBloc>(context).add(StartAudioStream(
-              url: (configState as Loaded).config.streamUrl,
-            ));
+            BlocProvider.of<UserVoteBloc>(context).add(
+              LoadUserVotes(
+                sessionId: (configState as Loaded).config.sessionId,
+              ),
+            );
+            BlocProvider.of<AudioBloc>(context).add(
+              StartAudioStream(
+                url: (configState as Loaded).config.streamUrl,
+              ),
+            );
           },
-          child: BlocBuilder<WebSocketBloc, WebSocketState>(
-            builder: (context, socketState) {
-              if (socketState is WebSocketLoading) {
-                return LoadingPage();
-              } else if (socketState is Disconnected) {
-                return ErrorPage(
-                    message: "Disconnected: ${socketState.reason}");
-              } else if (socketState is FailedToConnect) {
-                return ErrorPage(message: "Error: ${socketState.reason}");
-              }
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider<PlaybackBloc>(
-                    create: (context) =>
-                        PlaybackBloc(webSocket: mopidyWebSocket)
-                          ..add(LoadPlaybackEvents()),
-                  ),
-                  BlocProvider<SeekBloc>(
-                    create: (context) => SeekBloc(webSocket: mopidyWebSocket)
-                      ..add(LoadSeekEvents()),
-                  ),
-                  BlocProvider<TrackListBloc>(
-                    create: (context) =>
-                        TrackListBloc(webSocket: mopidyWebSocket)
-                          ..add(LoadTracklistEvents())
-                          ..add(UpdateTrackList()),
-                  ),
-                  BlocProvider<ArtworkBloc>(
-                    create: (context) => ArtworkBloc(webSocket: mopidyWebSocket)
-                      ..add(LoadArtworkEvents()),
-                  ),
-                  BlocProvider<VoteBloc>(
-                    create: (context) => VoteBloc(
-                      webSocket: mopidyWebSocket,
-                      voteClient: VoteClient(
-                        scheme: mopidyScheme,
-                        host: mopidyHost,
-                        port: mopidyPort,
-                        basePath: basePath,
-                      ),
-                    )..add(LoadVoteData()),
-                  ),
-                ],
-                child: MainPage(),
-              );
-            },
+          child: BlocProvider<WebSocketBloc>(
+            create: (BuildContext context) => WebSocketBloc(
+              webSocket: mopidyWebSocket,
+              voteBloc: BlocProvider.of<VoteBloc>(context),
+              searchBloc: BlocProvider.of<SearchBloc>(context),
+              seekBloc: BlocProvider.of<SeekBloc>(context),
+              trackListBloc: BlocProvider.of<TrackListBloc>(context),
+              playbackBloc: BlocProvider.of<PlaybackBloc>(context),
+              artworkBloc: BlocProvider.of<ArtworkBloc>(context),
+            )..add(LoadWebSocket()),
+            child: BlocBuilder<WebSocketBloc, WebSocketState>(
+              builder: (context, socketState) {
+                if (socketState is WebSocketLoading)
+                  return LoadingPage();
+                else if (socketState is Disconnected) {
+                  return ErrorPage(
+                      message: "Disconnected: ${socketState.reason}");
+                } else if (socketState is FailedToConnect)
+                  return ErrorPage(message: "Error: ${socketState.reason}");
+                BlocProvider.of<TrackListBloc>(context).add(UpdateTrackList());
+                return MainPage();
+              },
+            ),
           ),
         ),
       ),

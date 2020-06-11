@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:sangu/bloc/vote_bloc/bloc.dart';
 import 'package:sangu/client/vote_client.dart';
-import 'package:sangu_websocket/sangu_websocket.dart';
 
 class VoteBloc extends Bloc<VoteEvent, VoteState> {
   final VoteClient voteClient;
-  SanguWebSocket webSocket;
-  StreamSubscription _tracklistSubscription;
 
-  VoteBloc({@required this.voteClient, @required this.webSocket});
+  VoteBloc({@required this.voteClient});
 
   @override
   VoteState get initialState => VotesLoading();
@@ -21,9 +18,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> mapEventToState(
     VoteEvent event,
   ) async* {
-    if (event is LoadVoteData) {
-      yield* _mapLoadVoteDataToState(event);
-    } else if (event is VoteForTrack) {
+    if (event is VoteForTrack) {
       var trackListId = event.trackListId;
       yield* _increaseVotesForTrack(trackListId);
     } else if (event is UnvoteForTrack) {
@@ -32,13 +27,6 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     } else if (event is UpdateVotes) {
       yield* _mapUpdateVotesToState(event);
     }
-  }
-
-  Stream<VoteState> _mapLoadVoteDataToState(LoadVoteData event) async* {
-    _tracklistSubscription?.cancel();
-    _tracklistSubscription = webSocket.stream.listen((event) {
-      if (event is ReceivedTrackList) add(UpdateVotes());
-    });
   }
 
   Stream<VoteState> _increaseVotesForTrack(int trackListId) async* {
@@ -60,11 +48,5 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> _mapUpdateVotesToState(UpdateVotes event) async* {
     Map<String, dynamic> votesResponse = await voteClient.getVoteData();
     yield VotesReady(votes: votesResponse["votes"]);
-  }
-
-  @override
-  Future<void> close() {
-    _tracklistSubscription?.cancel();
-    return super.close();
   }
 }

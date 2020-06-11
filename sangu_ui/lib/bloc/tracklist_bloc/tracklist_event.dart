@@ -7,11 +7,6 @@ abstract class TrackListEvent extends Equatable {
   const TrackListEvent();
 }
 
-class LoadTracklistEvents extends TrackListEvent {
-  @override
-  List<Object> get props => [];
-}
-
 class AddTrack extends TrackListEvent {
   final Track track;
 

@@ -6,11 +6,6 @@ abstract class PlaybackEvent extends Equatable {
   const PlaybackEvent();
 }
 
-class LoadPlaybackEvents extends PlaybackEvent {
-  @override
-  List<Object> get props => [];
-}
-
 class ResumeTrack extends PlaybackEvent {
   @override
   List<Object> get props => [];
