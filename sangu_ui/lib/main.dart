@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
   final String mopidyHost;
   final int mopidyPort;
   final MopidyWebSocket mopidyWebSocket;
+  final String apiPath = "/sangu/api";
 
   MyApp({this.mopidyScheme, this.mopidyHost, this.mopidyPort})
       : mopidyWebSocket = MopidyWebSocket(
@@ -58,7 +59,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var basePath = "/sangu/api";
     return MultiBlocProvider(
       providers: [
         BlocProvider<VoteBloc>(
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
               scheme: mopidyScheme,
               host: mopidyHost,
               port: mopidyPort,
-              basePath: basePath,
+              basePath: apiPath,
             ),
           )..add(LoadVoteData()),
         ),
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
               scheme: mopidyScheme,
               host: mopidyHost,
               port: mopidyPort,
-              basePath: basePath,
+              basePath: apiPath,
             ),
           )..add(LoadConfig()),
         ),
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               scheme: mopidyScheme,
               host: mopidyHost,
               port: mopidyPort,
-              basePath: basePath,
+              basePath: apiPath,
             ),
           )..add(LoadLoginState()),
         ),
