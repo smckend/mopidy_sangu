@@ -52,7 +52,7 @@ class SanguAppState extends State<SanguAppBar> {
           },
           child: BlocBuilder<AudioBloc, AudioState>(
             builder: (context, audioState) {
-              if (audioState is AudioFailed) {
+              if (audioState is AudioFailed || audioState is NoAudio) {
                 return Container();
               }
               if (audioState is AudioLoading) {

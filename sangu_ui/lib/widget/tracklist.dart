@@ -17,6 +17,12 @@ class TrackListWidget extends StatefulWidget {
 
 class _TrackListWidgetState extends State<TrackListWidget> {
   @override
+  void initState() {
+    BlocProvider.of<TrackListBloc>(context).add(UpdateTrackList());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackListBloc, TrackListState>(
       condition: (oldState, newState) => !ListEquality().equals(

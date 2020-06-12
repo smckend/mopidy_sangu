@@ -4,6 +4,11 @@ abstract class AudioState extends Equatable {
   const AudioState();
 }
 
+class NoAudio extends AudioState {
+  @override
+  List<Object> get props => [];
+}
+
 class AudioLoading extends AudioState {
   @override
   List<Object> get props => [];

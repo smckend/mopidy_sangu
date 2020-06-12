@@ -147,7 +147,6 @@ class MyApp extends StatelessWidget {
                       message: "Disconnected: ${socketState.reason}");
                 } else if (socketState is FailedToConnect)
                   return ErrorPage(message: "Error: ${socketState.reason}");
-                BlocProvider.of<TrackListBloc>(context).add(UpdateTrackList());
                 return MainPage();
               },
             ),

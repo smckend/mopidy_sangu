@@ -10,7 +10,7 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   String _url;
 
   @override
-  AudioState get initialState => AudioLoading();
+  AudioState get initialState => NoAudio();
 
   @override
   Stream<AudioState> mapEventToState(
@@ -52,16 +52,17 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     if (_url == null || _url.isEmpty) return;
 
     yield AudioLoading();
-    Duration duration = await _player.setUrl(_url).catchError((error) {
-      print("Error occurred during audio setup: $error. Trying anyway.");
-      return error.toString().contains("Infinity")
-          ? Duration(seconds: 1)
-          : Duration(
-              seconds: -1,
-            ); // Even though it works just_audio throws an error when the duration is Infinity
-    });
-
-    yield duration.isNegative ? AudioFailed() : AudioMuted();
+    yield* await _player.setUrl(_url).then(
+      (duration) async* {
+        print("Loaded audio duration: $duration");
+        yield AudioMuted();
+      },
+    ).catchError(
+      (error) async* {
+        print("Error occurred during audio setup: $error. Trying anyway.");
+        yield AudioFailed();
+      },
+    );
   }
 
   Stream<AudioState> _mapMuteAudioToState(MuteAudio event) async* {
