@@ -38,7 +38,7 @@ class NowPlayingTrackInfo extends StatelessWidget {
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       BlocBuilder<VoteBloc, VoteState>(
                         builder: (context, voteState) {
@@ -46,11 +46,15 @@ class NowPlayingTrackInfo extends StatelessWidget {
                           int _votesForTrack = voteState is VotesReady
                               ? voteState.votes[_trackListId.toString()] ?? 0
                               : 0;
-                          return VoteWidget(
-                            trackListId: _trackListId,
-                            votesForTrack: _votesForTrack,
-                            buttonEnabled: false,
-                            canVote: false,
+                          return Container(
+                            height: 45,
+                            width: 45,
+                            child: VoteWidget(
+                              trackListId: _trackListId,
+                              votesForTrack: _votesForTrack,
+                              buttonEnabled: false,
+                              canVote: false,
+                            ),
                           );
                         },
                       ),

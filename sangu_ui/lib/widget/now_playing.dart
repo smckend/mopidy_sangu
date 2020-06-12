@@ -14,18 +14,15 @@ class NowPlayingWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Flexible(
-          child: Container(
-            padding: EdgeInsets.only(left: 26.0, bottom: 5.0),
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              "Now Playing",
-              style: Theme.of(context).textTheme.subtitle2,
-            ),
+        Container(
+          padding: const EdgeInsets.only(left: 26.0, bottom: 5.0),
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            "Now Playing",
+            style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
         Expanded(
-          flex: 4,
           child: Padding(
             padding: const EdgeInsets.only(left: 26.0, right: 30.0),
             child: Row(
@@ -40,9 +37,12 @@ class NowPlayingWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Flexible(flex: 1, child: NowPlayingTrackInfo()),
-                        Expanded(
+                        Flexible(
                           flex: 2,
+                          child: NowPlayingTrackInfo(),
+                        ),
+                        Expanded(
+                          flex: 4,
                           child: NowPlayingControl(),
                         )
                       ],
@@ -53,10 +53,10 @@ class NowPlayingWidget extends StatelessWidget {
             ),
           ),
         ),
-        Flexible(
-            child: Padding(
-                padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                child: SeekBar())),
+        Padding(
+          padding: const EdgeInsets.only(left: 26.0, right: 26.0),
+          child: SeekBar(),
+        ),
       ],
     );
   }
