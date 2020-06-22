@@ -33,11 +33,13 @@ void main() {
     port = 6680;
   }
 
-  runApp(MyApp(
-    mopidyScheme: scheme,
-    mopidyHost: host,
-    mopidyPort: port,
-  ));
+  runApp(
+    MyApp(
+      mopidyScheme: scheme,
+      mopidyHost: host,
+      mopidyPort: port,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
