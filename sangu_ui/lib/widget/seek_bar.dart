@@ -62,7 +62,12 @@ class _SeekBarState extends State<SeekBar> with SingleTickerProviderStateMixin {
     _seekBloc.add(GetTimePosition());
     while (_seekBloc != null) {
       await Future.delayed(
-          const Duration(seconds: 2), () => _seekBloc.add(GetTimePosition()));
+        const Duration(seconds: 2),
+        () {
+          if (_playbackBloc.state == TrackPlayingState)
+            _seekBloc.add(GetTimePosition());
+        },
+      );
     }
   }
 
