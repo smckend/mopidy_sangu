@@ -324,13 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  json_rpc_2:
-    dependency: transitive
-    description:
-      name: json_rpc_2
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -524,8 +517,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.1.0"
-      resolved-ref: dcadb179da951ed46813b4f4e3527b9e45853fd3
+      ref: "v0.2.0"
+      resolved-ref: "16451c25100a13a8d46ff7c6a78f0afe365e9573"
       url: "https://github.com/smckend/sangu_websocket.git"
     source: git
     version: "0.1.0"
@@ -688,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+6"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   vector_math:
     dependency: transitive
     description:
