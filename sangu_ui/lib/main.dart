@@ -51,12 +51,9 @@ class MyApp extends StatelessWidget {
 
   MyApp({this.mopidyScheme, this.mopidyHost, this.mopidyPort})
       : mopidyWebSocket = MopidyWebSocket(
-          webSocketUri: Uri(
-            scheme: mopidyScheme == "https" ? "wss" : "ws",
-            host: mopidyHost,
-            port: mopidyPort,
-            path: "/mopidy/ws",
-          ),
+          scheme: mopidyScheme,
+          host: mopidyHost,
+          port: mopidyPort,
         );
 
   @override
