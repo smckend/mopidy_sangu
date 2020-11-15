@@ -10,10 +10,7 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
   LocalStorage _artwork;
   StreamSubscription _storageStreamSubscription;
 
-  ArtworkBloc({this.webSocket});
-
-  @override
-  ArtworkState get initialState => AlbumArtLoading();
+  ArtworkBloc({this.webSocket}) : super(AlbumArtLoading());
 
   @override
   Stream<ArtworkState> mapEventToState(

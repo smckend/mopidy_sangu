@@ -7,10 +7,7 @@ import 'package:sangu_websocket/sangu_websocket.dart' as SW;
 class TrackListBloc extends Bloc<TrackListEvent, TrackListState> {
   SW.SanguWebSocket webSocket;
 
-  TrackListBloc({this.webSocket});
-
-  @override
-  TrackListState get initialState => TrackListLoading();
+  TrackListBloc({this.webSocket}) : super(TrackListLoading());
 
   @override
   Stream<TrackListState> mapEventToState(

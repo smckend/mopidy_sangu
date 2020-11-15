@@ -30,10 +30,7 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
     this.trackListBloc,
     this.artworkBloc,
     this.searchBloc,
-  });
-
-  @override
-  WebSocketState get initialState => WebSocketLoading();
+  }) : super(WebSocketLoading());
 
   @override
   Stream<WebSocketState> mapEventToState(

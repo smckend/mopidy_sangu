@@ -9,10 +9,7 @@ import 'package:sangu/client/vote_client.dart';
 class VoteBloc extends Bloc<VoteEvent, VoteState> {
   final VoteClient voteClient;
 
-  VoteBloc({@required this.voteClient});
-
-  @override
-  VoteState get initialState => VotesLoading();
+  VoteBloc({@required this.voteClient}) : super(VotesLoading());
 
   @override
   Stream<VoteState> mapEventToState(

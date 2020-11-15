@@ -25,7 +25,7 @@ class _TrackListWidgetState extends State<TrackListWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackListBloc, TrackListState>(
-      condition: (oldState, newState) => !ListEquality().equals(
+      buildWhen: (oldState, newState) => !ListEquality().equals(
           oldState.trackList.map((track) => track.trackListId).toList(),
           newState.trackList.map((track) => track.trackListId).toList()),
       builder: (BuildContext context, TrackListState state) {

@@ -114,7 +114,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: sanguTheme,
         home: BlocListener<ConfigBloc, ConfigState>(
-          condition: (_, newState) => newState is Loaded,
+          listenWhen: (_, newState) => newState is Loaded,
           listener: (BuildContext context, configState) {
             BlocProvider.of<UserVoteBloc>(context).add(
               LoadUserVotes(

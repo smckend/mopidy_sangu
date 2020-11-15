@@ -11,7 +11,7 @@ class NowPlayingTrackInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackListBloc, TrackListState>(
-        condition: (oldState, newState) =>
+        buildWhen: (oldState, newState) =>
             oldState.currentTrack?.trackListId !=
             newState.currentTrack?.trackListId,
         builder: (BuildContext context, state) {

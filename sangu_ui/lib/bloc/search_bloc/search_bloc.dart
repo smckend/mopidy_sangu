@@ -7,10 +7,7 @@ import 'package:sangu_websocket/sangu_websocket.dart' as SW;
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SW.SanguWebSocket webSocket;
 
-  SearchBloc({this.webSocket});
-
-  @override
-  SearchState get initialState => NoSearchInProgress();
+  SearchBloc({this.webSocket}) : super(NoSearchInProgress());
 
   List<SW.SearchResult> searchResults;
 

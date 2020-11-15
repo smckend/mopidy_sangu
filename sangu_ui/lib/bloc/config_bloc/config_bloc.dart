@@ -8,10 +8,7 @@ import 'package:sangu/model/config.dart';
 class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
   final ConfigClient configClient;
 
-  ConfigBloc({this.configClient});
-
-  @override
-  ConfigState get initialState => NotLoaded();
+  ConfigBloc({this.configClient}) : super(NotLoaded());
 
   @override
   Stream<ConfigState> mapEventToState(

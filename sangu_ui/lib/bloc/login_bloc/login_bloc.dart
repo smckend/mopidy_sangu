@@ -8,12 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginClient loginClient;
 
-  LoginBloc({this.loginClient}) {
+  LoginBloc({this.loginClient}) : super( LoggedOut()) {
     add(LoadLoginState());
   }
-
-  @override
-  LoginState get initialState => LoggedOut();
 
   @override
   Stream<LoginState> mapEventToState(

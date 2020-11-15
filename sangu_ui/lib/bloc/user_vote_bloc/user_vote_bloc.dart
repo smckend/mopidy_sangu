@@ -9,8 +9,7 @@ class UserVoteBloc extends Bloc<UserVoteEvent, UserVoteState> {
   LocalStorage _userVotes;
   StreamSubscription _userVotesSubscription;
 
-  @override
-  UserVoteState get initialState => UserVotesLoading();
+  UserVoteBloc() : super(UserVotesLoading());
 
   @override
   Stream<UserVoteState> mapEventToState(

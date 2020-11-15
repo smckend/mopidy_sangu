@@ -10,7 +10,7 @@ class SanguBackground extends StatelessWidget {
     return Stack(
       children: <Widget>[
         BlocBuilder<TrackListBloc, TrackListState>(
-            condition: (oldState, newState) =>
+            buildWhen: (oldState, newState) =>
                 oldState.currentTrack?.trackListId !=
                 newState.currentTrack?.trackListId,
             builder: (BuildContext context, trackListState) {

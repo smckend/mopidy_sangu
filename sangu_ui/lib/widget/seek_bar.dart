@@ -80,7 +80,7 @@ class _SeekBarState extends State<SeekBar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackListBloc, TrackListState>(
-      condition: (oldState, newState) =>
+      buildWhen: (oldState, newState) =>
           oldState.currentTrack?.trackListId !=
           newState.currentTrack?.trackListId,
       builder: (context, state) {

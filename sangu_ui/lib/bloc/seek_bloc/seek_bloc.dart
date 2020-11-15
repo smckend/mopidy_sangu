@@ -7,10 +7,7 @@ import 'package:sangu_websocket/sangu_websocket.dart';
 class SeekBloc extends Bloc<SeekEvent, SeekState> {
   SanguWebSocket webSocket;
 
-  SeekBloc({this.webSocket});
-
-  @override
-  SeekState get initialState => Loading();
+  SeekBloc({this.webSocket}) : super(Loading());
 
   @override
   Stream<SeekState> mapEventToState(

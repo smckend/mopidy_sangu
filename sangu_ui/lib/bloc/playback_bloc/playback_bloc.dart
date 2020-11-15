@@ -12,10 +12,7 @@ class PlaybackBloc extends Bloc<PlaybackEvent, String> {
     SW.TrackStoppedState
   ];
 
-  PlaybackBloc({this.webSocket});
-
-  @override
-  String get initialState => SW.TrackStoppedState;
+  PlaybackBloc({this.webSocket}) : super(SW.TrackStoppedState);
 
   @override
   Stream<String> mapEventToState(

@@ -9,8 +9,7 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   StreamSubscription _audioPlayerEventsSubscription;
   String _url;
 
-  @override
-  AudioState get initialState => NoAudio();
+  AudioBloc() : super(NoAudio());
 
   @override
   Stream<AudioState> mapEventToState(
@@ -38,9 +37,9 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     _audioPlayerEventsSubscription?.cancel();
 
     _player = AudioPlayer();
-    _audioPlayerEventsSubscription = _player.playbackStateStream.listen(
+    _audioPlayerEventsSubscription = _player.processingStateStream.listen(
       (state) {
-        if (state == AudioPlaybackState.completed) {
+        if (state == ProcessingState.completed) {
           Future.delayed(const Duration(seconds: 2),
               () => add(StartAudioStream(url: event.url)));
         }
@@ -67,13 +66,13 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
 
   Stream<AudioState> _mapMuteAudioToState(MuteAudio event) async* {
     _player.setVolume(0);
-    if (_player.playbackState != AudioPlaybackState.playing) _player.play();
+    if (!_player.playing) _player.play();
     yield AudioMuted();
   }
 
   Stream<AudioState> _mapUnmuteAudioToState(UnmuteAudio event) async* {
     _player.setVolume(0.85);
-    if (_player.playbackState != AudioPlaybackState.playing) _player.play();
+    if (!_player.playing) _player.play();
     yield AudioUnmuted();
   }
 
