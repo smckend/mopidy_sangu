@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_connection(db_file):
-    """ create a database connection to the SQLite database
+    """create a database connection to the SQLite database
         specified by db_file
     :param db_file: database file
     :return: Connection object or None
@@ -22,7 +22,7 @@ def create_connection(db_file):
 
 
 def create_vote_table(conn):
-    """ create VoteData table
+    """create VoteData table
     :param conn: Connection object
     :return:
     """

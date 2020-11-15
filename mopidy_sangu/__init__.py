@@ -34,7 +34,11 @@ class Extension(ext.Extension):
         from mopidy_sangu.api import sangu_factory
 
         registry.add(
-            "http:app", {"name": self.ext_name, "factory": sangu_factory,}
+            "http:app",
+            {
+                "name": self.ext_name,
+                "factory": sangu_factory,
+            },
         )
 
         registry.add(

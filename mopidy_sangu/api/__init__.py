@@ -30,7 +30,11 @@ def sangu_factory(config, core):
             UnVoteRequestHandler,
             {"core": core, "votes": votes},
         ),
-        ("/api/votes", VoteDataRequestHandler, {"core": core, "votes": votes},),
+        (
+            "/api/votes",
+            VoteDataRequestHandler,
+            {"core": core, "votes": votes},
+        ),
         (
             "/api/config",
             ConfigRequestHandler,
