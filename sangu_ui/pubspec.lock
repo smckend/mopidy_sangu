@@ -559,8 +559,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.2.1"
-      resolved-ref: "523cee3df392312110dd6666b5daa98bea0685f7"
+      ref: "v0.2.2"
+      resolved-ref: de80faa7a4a4b9a7250768f38a33070d6804e828
       url: "https://github.com/smckend/sangu_websocket.git"
     source: git
     version: "0.1.0"
